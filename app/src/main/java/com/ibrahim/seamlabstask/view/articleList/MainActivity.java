@@ -1,5 +1,13 @@
 package com.ibrahim.seamlabstask.view.articleList;
 
+
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -7,20 +15,11 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.FrameLayout;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.ibrahim.seamlabstask.ItemFragment;
+import com.ibrahim.seamlabstask.R;
 import com.ibrahim.seamlabstask.Testttttttt;
 import com.ibrahim.seamlabstask.adapter.OnRecyclerItemClicked;
-import com.ibrahim.seamlabstask.R;
 import com.ibrahim.seamlabstask.data.model.Article;
 import com.ibrahim.seamlabstask.utils.Constants;
 import com.ibrahim.seamlabstask.view.SearchActivity;

@@ -7,7 +7,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#444"
-    app:layoutDescription="@xml/scene_test"
     tools:ignore="contentDescription">
 
     <FrameLayout
@@ -29,14 +28,13 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="fitXY"
-        android:background="#000"
-        android:src="@android:drawable/ic_menu_slideshow"
+        android:src="@drawable/sea"
         app:layout_constraintBottom_toBottomOf="@id/top_image_container"
         app:layout_constraintEnd_toEndOf="@id/top_image_container"
         app:layout_constraintHorizontal_bias="0.417"
         app:layout_constraintStart_toStartOf="@id/top_image_container"
         app:layout_constraintTop_toTopOf="@id/top_image_container"
-        app:layout_constraintVertical_bias=".5" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <FrameLayout
         android:id="@+id/recyclerview_container"

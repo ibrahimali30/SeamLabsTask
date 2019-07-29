@@ -142,7 +142,7 @@ public class ArticleActivity extends AppCompatActivity {
                 webView.saveWebArchive(folderName + "/" + articleTitle + ".mht", false, new ValueCallback<String>() {
                     @Override
                     public void onReceiveValue(String s) {
-                        Log.d(TAG, "onReceiveValue: s"+s);
+                        Log.d(TAG, "onReceiveValue: sss"+s);
                     }
                 });
 

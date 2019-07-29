@@ -22,6 +22,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.ibrahim.seamlabstask.adapter.OnRecyclerItemClicked;
 import com.ibrahim.seamlabstask.data.model.Article;
@@ -53,6 +54,37 @@ public class Testttttttt extends AppCompatActivity implements OnRecyclerItemClic
         webView = findViewById(R.id.recyclerview_front);
 
         motionLayout = findViewById(R.id.motionLayout);
+
+        motionLayout.setTransitionListener(new MotionLayout.TransitionListener() {
+            @Override
+            public void onTransitionStarted(MotionLayout motionLayout, int i, int i1) {
+
+            }
+
+            @Override
+            public void onTransitionChange(MotionLayout motionLayout, int i, int i1, float v) {
+
+            }
+
+            @Override
+            public void onTransitionCompleted(MotionLayout motionLayout, int i) {
+                if (i == Constants.MOTION_LAUOUT_COLAPSED) {
+                    fragment1.recyclerView.setNestedScrollingEnabled(false);
+                }else {
+                    fragment1.recyclerView.setNestedScrollingEnabled(true);
+                }
+            }
+
+            @Override
+            public void onTransitionTrigger(MotionLayout motionLayout, int i, boolean b, float v) {
+
+            }
+
+            @Override
+            public boolean allowsTransition(MotionScene.Transition transition) {
+                return false;
+            }
+        });
 
 //        ImageView view = findViewById(R.id.top_image);
 //        view.setOnClickListener(new View.OnClickListener() {
@@ -196,6 +228,17 @@ public class Testttttttt extends AppCompatActivity implements OnRecyclerItemClic
 //        intent.putExtra(Constants.INTENT_TITLE, article.getTitle());
 //        startActivity(intent);
 
+        ImageView imageView = findViewById(R.id.top_image);
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: ------clicked");
+            }
+        });
+
+//        Glide.with(this).load(article.getUrl()).into(imageView);
+        imageView.setImageResource(R.drawable.ic_close_black_24dp);
         webView.loadUrl(article.getUrl());
 
         webView.setWebViewClient(new WebViewClient());

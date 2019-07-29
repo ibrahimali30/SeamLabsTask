@@ -1,7 +1,6 @@
 package com.ibrahim.seamlabstask.view.articleList;
 
 import android.app.Application;
-import android.app.TaskInfo;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;

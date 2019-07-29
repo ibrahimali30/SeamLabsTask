@@ -1,30 +1,24 @@
 package com.ibrahim.seamlabstask;
 
-import android.content.Context;
+
+
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.ibrahim.seamlabstask.adapter.DataAdapter;
 import com.ibrahim.seamlabstask.data.model.Article;
-import com.ibrahim.seamlabstask.dummy.DummyContent;
-import com.ibrahim.seamlabstask.dummy.DummyContent.DummyItem;
 import com.ibrahim.seamlabstask.utils.Constants;
 import com.ibrahim.seamlabstask.view.articleList.ArticlListFragmentViewModel;
-import com.ibrahim.seamlabstask.view.articleList.ArticlListViewModel;
-import com.ibrahim.seamlabstask.view.articleList.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
