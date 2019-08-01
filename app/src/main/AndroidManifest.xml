@@ -15,7 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Testttttttt"></activity>
+        <activity android:name=".Main3Activity"></activity>
+        <activity android:name=".Main2Activity" />
+        <activity android:name=".Testttttttt" />
         <activity android:name=".view.articleActivity.ArticleActivity" />
         <activity android:name=".view.SearchActivity" />
         <activity android:name=".view.articleList.MainActivity">

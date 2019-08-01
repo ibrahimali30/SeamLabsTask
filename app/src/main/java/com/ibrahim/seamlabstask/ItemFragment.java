@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,11 +20,12 @@ import com.ibrahim.seamlabstask.adapter.DataAdapter;
 import com.ibrahim.seamlabstask.data.model.Article;
 import com.ibrahim.seamlabstask.utils.Constants;
 import com.ibrahim.seamlabstask.view.articleList.ArticlListFragmentViewModel;
+import com.ibrahim.seamlabstask.view.articleList.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class ItemFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener , LifecycleOwner {
     private static final String TAG = "ItemFragment";
 
     private List<Article> articleStructure = new ArrayList<>();
@@ -49,7 +51,7 @@ public class ItemFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         mViewModel = ViewModelProviders.of(getActivity()).get(ArticlListFragmentViewModel.class);
 
         if (displayMode == Constants.SHOW_ARTICLE){
-            mViewModel.articleLiveData.observe(getActivity() , new Observer<List<Article>>() {
+            mViewModel.articleLiveData.observe((LifecycleOwner) getActivity(), new Observer<List<Article>>() {
                 @Override
                 public void onChanged(List<Article> articles) {
                     Log.d(TAG, "onChanged: called "+articles.size());
@@ -57,14 +59,14 @@ public class ItemFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 }
             });
 
-            mViewModel.setRefreshing.observe(getActivity(), new Observer<Boolean>() {
+            mViewModel.setRefreshing.observe(this , new Observer<Boolean>() {
                 @Override
                 public void onChanged(Boolean isRefreshing) {
                     swipeRefreshLayout.setRefreshing(isRefreshing);
                 }
             });
         }else {
-            mViewModel.savedArticlesLiveData.observe(getActivity() , new Observer<List<Article>>() {
+            mViewModel.savedArticlesLiveData.observe( getActivity(), new Observer<List<Article>>() {
                 @Override
                 public void onChanged(List<Article> articles) {
                     Log.d(TAG, "onChanged: called saved"+articles.size());
@@ -83,7 +85,7 @@ public class ItemFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     private void initRecyclerView() {
         recyclerView = view.findViewById(R.id.card_recycler_view);
-        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setNestedScrollingEnabled(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new DataAdapter(getActivity(), articleStructure);
         recyclerView.setAdapter(adapter);

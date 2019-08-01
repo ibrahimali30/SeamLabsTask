@@ -2,6 +2,7 @@ package com.ibrahim.seamlabstask.view.articleActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -30,7 +31,7 @@ import com.ibrahim.seamlabstask.view.articleList.ArticlListViewModel;
 import java.io.File;
 import java.util.List;
 
-public class ArticleActivity extends AppCompatActivity {
+public class ArticleActivity extends AppCompatActivity implements LifecycleOwner {
     private static final String TAG = "WebViewActivity";
     //views
     private WebView webView;
@@ -56,14 +57,14 @@ public class ArticleActivity extends AppCompatActivity {
 
         ArticlListViewModel mArticleViewModel2 = ViewModelProviders.of(this).get(ArticlListViewModel.class);
 
-        mArticleViewModel2.articleLiveData.observe(this , new Observer<List<Article>>() {
+        mArticleViewModel2.articleLiveData.observe((LifecycleOwner) this, new Observer<List<Article>>() {
             @Override
             public void onChanged(List<Article> articles) {
                 Log.d(TAG, "onChanged: called "+articles.size());
             }
         });
 
-        mArticleViewModel2.savedArticlesLiveData.observe(this , new Observer<List<Article>>() {
+        mArticleViewModel2.savedArticlesLiveData.observe( this, new Observer<List<Article>>() {
             @Override
             public void onChanged(List<Article> articles) {
                 Log.d(TAG, "onChanged: called saved"+articles.size());

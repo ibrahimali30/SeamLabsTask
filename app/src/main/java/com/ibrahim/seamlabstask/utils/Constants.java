@@ -13,5 +13,5 @@ public class Constants {
 
     public static final int SHOW_ARTICLE = 1 ;
     public static final int SHOW_SAVED_ARTICLE = 2 ;
-    public static final int MOTION_LAUOUT_COLAPSED = 2131230818;
+    public static final int MOTION_LAUOUT_COLAPSED = 2131427386;
 }

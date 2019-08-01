@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,18 +43,21 @@ public class Testttttttt extends AppCompatActivity implements OnRecyclerItemClic
     private MotionLayout motionLayout;
     private ItemFragment fragment2 , fragment1;
     private WebView webView;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tttttttttttttttt);
+        setContentView(R.layout.activity_main3);
 
 //        initToolBar();
         initRecyclerView();
         initBottomNavigationView();
         webView = findViewById(R.id.recyclerview_front);
+        imageView = findViewById(R.id.top_image);
 
         motionLayout = findViewById(R.id.motionLayout);
+//        motionLayout.transitionToEnd();
 
         motionLayout.setTransitionListener(new MotionLayout.TransitionListener() {
             @Override
@@ -69,30 +73,33 @@ public class Testttttttt extends AppCompatActivity implements OnRecyclerItemClic
             @Override
             public void onTransitionCompleted(MotionLayout motionLayout, int i) {
                 if (i == Constants.MOTION_LAUOUT_COLAPSED) {
+                    Log.d(TAG, "onTransitionCompleted: MOTION_LAUOUT_COLAPSED  "+i);
                     fragment1.recyclerView.setNestedScrollingEnabled(false);
+                    fragment2.recyclerView.setNestedScrollingEnabled(false);
                 }else {
                     fragment1.recyclerView.setNestedScrollingEnabled(true);
+                    fragment2.recyclerView.setNestedScrollingEnabled(true);
                 }
+//                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             }
+
 
             @Override
             public void onTransitionTrigger(MotionLayout motionLayout, int i, boolean b, float v) {
 
             }
 
-            @Override
-            public boolean allowsTransition(MotionScene.Transition transition) {
-                return false;
-            }
         });
 
-//        ImageView view = findViewById(R.id.top_image);
-//        view.setOnClickListener(new View.OnClickListener() {
+//        motionLayout.transitionToEnd();
+
+
+//        new Handler().postDelayed(new Runnable() {
 //            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(Testttttttt.this, "image clicked", Toast.LENGTH_SHORT).show();
+//            public void run() {
+//                motionLayout.transitionToEnd();
 //            }
-//        });
+//        } , 1);
 
 
 
@@ -215,12 +222,12 @@ public class Testttttttt extends AppCompatActivity implements OnRecyclerItemClic
         if (motionLayout.getCurrentState() != Constants.MOTION_LAUOUT_COLAPSED) return;
 
 //        Intent intent = new Intent(this, ArticleActivity.class);
-//        String url ;
-//        if (article.getIsSaved()==0){
-//            url = article.getUrl();
-//        }else {
-//            url = "file://" + getFilesDir().getAbsolutePath() + "/cachedFiles"  + "/"+article.getTitle() + ".mht";
-//        }
+        String url ;
+        if (article.getIsSaved()==0){
+            url = article.getUrl();
+        }else {
+            url = "file://" + getFilesDir().getAbsolutePath() + "/cachedFiles"  + "/"+article.getTitle() + ".mht";
+        }
 //
 //
 //
@@ -228,22 +235,17 @@ public class Testttttttt extends AppCompatActivity implements OnRecyclerItemClic
 //        intent.putExtra(Constants.INTENT_TITLE, article.getTitle());
 //        startActivity(intent);
 
-        ImageView imageView = findViewById(R.id.top_image);
+        Glide.with(this).load(article.getUrlToImage()).into(imageView);
 
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onClick: ------clicked");
-            }
-        });
 
-//        Glide.with(this).load(article.getUrl()).into(imageView);
-        imageView.setImageResource(R.drawable.ic_close_black_24dp);
-        webView.loadUrl(article.getUrl());
+
+        webView.loadUrl(url);
+
 
         webView.setWebViewClient(new WebViewClient());
         webView.setWebChromeClient(new WebChromeClient());
-        motionLayout.transitionToEnd();
+        webView.setNestedScrollingEnabled(false);
+        transitionToState(R.layout.motion_333_eend);
     }
 
     @Override
@@ -257,7 +259,11 @@ public class Testttttttt extends AppCompatActivity implements OnRecyclerItemClic
 
             super.onBackPressed();
         }else {
-            motionLayout.transitionToStart();
+            transitionToState(R.layout.motion_333_start);
         }
+    }
+
+    private void transitionToState(int stateLayoutId) {
+        motionLayout.transitionToState(stateLayoutId);
     }
 }

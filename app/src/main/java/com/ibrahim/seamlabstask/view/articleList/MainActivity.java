@@ -11,12 +11,15 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.ibrahim.seamlabstask.ItemFragment;
+import com.ibrahim.seamlabstask.Main2Activity;
+import com.ibrahim.seamlabstask.Main3Activity;
 import com.ibrahim.seamlabstask.R;
 import com.ibrahim.seamlabstask.Testttttttt;
 import com.ibrahim.seamlabstask.adapter.OnRecyclerItemClicked;
@@ -27,7 +30,7 @@ import com.ibrahim.seamlabstask.view.articleActivity.ArticleActivity;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, OnRecyclerItemClicked {
+public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, OnRecyclerItemClicked, LifecycleOwner {
     private static final String TAG = "MainActivity";
 
     //view
@@ -58,18 +61,18 @@ startActivity(new Intent(this , Testttttttt.class));
         mViewModel.articleLiveData.observe(this, new Observer<List<Article>>() {
             @Override
             public void onChanged(List<Article> articles) {
-//                adapter.setArticles(articles);
+
             }
         });
 
-        mViewModel.setRefreshing.observe(this, new Observer<Boolean>() {
+        mViewModel.setRefreshing.observe((LifecycleOwner) this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean isRefreshing) {
 //                swipeRefreshLayout.setRefreshing(isRefreshing);
             }
         });
 
-        mViewModel.savedArticlesLiveData.observe(this , new Observer<List<Article>>() {
+        mViewModel.savedArticlesLiveData.observe((LifecycleOwner) this, new Observer<List<Article>>() {
             @Override
             public void onChanged(List<Article> articles) {
                 Log.d(TAG, "onChanged: called "+articles.size());
@@ -180,8 +183,12 @@ startActivity(new Intent(this , Testttttttt.class));
 
         intent.putExtra(Constants.INTENT_URL, url);
         intent.putExtra(Constants.INTENT_TITLE, article.getTitle());
-
+        Log.d(TAG, "onArticleClicked: ");
         startActivity(intent);
     }
 
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
 }
