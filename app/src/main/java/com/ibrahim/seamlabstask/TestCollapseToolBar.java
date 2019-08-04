@@ -1,91 +1,92 @@
-package com.ibrahim.seamlabstask.view.articleList;
+package com.ibrahim.seamlabstask;
 
-
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.motion.widget.MotionLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.ibrahim.seamlabstask.ItemFragment;
-import com.ibrahim.seamlabstask.Main2Activity;
-import com.ibrahim.seamlabstask.Main3Activity;
-import com.ibrahim.seamlabstask.R;
-import com.ibrahim.seamlabstask.Testttttttt;
 import com.ibrahim.seamlabstask.adapter.OnRecyclerItemClicked;
 import com.ibrahim.seamlabstask.data.model.Article;
 import com.ibrahim.seamlabstask.utils.Constants;
 import com.ibrahim.seamlabstask.view.SearchActivity;
-import com.ibrahim.seamlabstask.view.articleActivity.ArticleActivity;
+import com.ibrahim.seamlabstask.view.articleList.ArticlListViewModel;
 
-import java.util.List;
-
-public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, OnRecyclerItemClicked, LifecycleOwner {
-    private static final String TAG = "MainActivity";
-
-    //view
-//    private List<Article> articleStructure = new ArrayList<>();
-//    private DataAdapter adapter;
-//    private SwipeRefreshLayout swipeRefreshLayout;
-//    private RecyclerView recyclerView;
+public class TestCollapseToolBar extends AppCompatActivity implements OnRecyclerItemClicked {
+    private static final String TAG = "TestCollapseToolBar";
 
     BottomNavigationView mNavigationView;
 
     ArticlListViewModel mViewModel;
+//    private MotionLayout motionLayout;
+    private ItemFragment fragment2 , fragment1;
+    private WebView webView;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.motion_333_start);
 
 //        initToolBar();
         initRecyclerView();
         initBottomNavigationView();
+        webView = findViewById(R.id.card_recycler_view);
+        imageView = findViewById(R.id.top_image);
 
-startActivity(new Intent(this , Testttttttt.class));
-
-
-
-        mViewModel = ViewModelProviders.of(this).get(ArticlListViewModel.class);
-
-        mViewModel.articleLiveData.observe(this, new Observer<List<Article>>() {
-            @Override
-            public void onChanged(List<Article> articles) {
-
-            }
-        });
-
-        mViewModel.setRefreshing.observe((LifecycleOwner) this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean isRefreshing) {
-//                swipeRefreshLayout.setRefreshing(isRefreshing);
-            }
-        });
-
-        mViewModel.savedArticlesLiveData.observe((LifecycleOwner) this, new Observer<List<Article>>() {
-            @Override
-            public void onChanged(List<Article> articles) {
-                Log.d(TAG, "onChanged: called "+articles.size());
-            }
-        });
+//        motionLayout = findViewById(R.id.motionLayout);
+//
+//        motionLayout.setTransitionListener(new MotionLayout.TransitionListener() {
+//            @Override
+//            public void onTransitionStarted(MotionLayout motionLayout, int i, int i1) {
+//
+//            }
+//
+//            @Override
+//            public void onTransitionChange(MotionLayout motionLayout, int i, int i1, float v) {
+//
+//            }
+//
+//            @Override
+//            public void onTransitionCompleted(MotionLayout motionLayout, int i) {
+//                if (i == R.layout.motion_333_start) {
+//                    Log.d(TAG, "onTransitionCompleted: MOTION_LAUOUT_COLAPSED  "+i);
+//                    fragment1.recyclerView.setNestedScrollingEnabled(false);
+//                    fragment2.recyclerView.setNestedScrollingEnabled(false);
+//                }else {
+//                    fragment1.recyclerView.setNestedScrollingEnabled(true);
+//                    fragment2.recyclerView.setNestedScrollingEnabled(true);
+//                }
+////                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+//            }
+//
+//
+//            @Override
+//            public void onTransitionTrigger(MotionLayout motionLayout, int i, boolean b, float v) {
+//
+//            }
+//
+//        });
 
     }
 
     private void initBottomNavigationView() {
         mNavigationView = findViewById(R.id.bottom_nav);
 
-        final ItemFragment fragment1 = new ItemFragment(Constants.SHOW_ARTICLE);
-        final ItemFragment fragment2 = new ItemFragment(Constants.SHOW_SAVED_ARTICLE);
+        fragment1 = new ItemFragment(Constants.SHOW_ARTICLE);
+        fragment2 = new ItemFragment(Constants.SHOW_SAVED_ARTICLE);
 
         getSupportFragmentManager().beginTransaction().add(R.id.container, fragment2).commit();
         getSupportFragmentManager().beginTransaction().add(R.id.container, fragment1).commit();
@@ -119,7 +120,6 @@ startActivity(new Intent(this , Testttttttt.class));
 
         mNavigationView.setSelectedItemId(R.id.navigation_home);
 
-
     }
 
     private void initToolBar() {
@@ -139,10 +139,10 @@ startActivity(new Intent(this , Testttttttt.class));
 //        recyclerView.setAdapter(adapter);
     }
 
-    @Override
-    public void onRefresh() {
-        mViewModel.getArticle();
-    }
+//    @Override
+//    public void onRefresh() {
+//        mViewModel.getArticle();
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -171,9 +171,8 @@ startActivity(new Intent(this , Testttttttt.class));
 
     @Override
     public void onArticleClicked(Article article) {
-
-        Intent intent = new Intent(this, ArticleActivity.class);
-
+//        if (motionLayout.getStartState() != R.layout.motion_333_start)return;
+//        Intent intent = new Intent(this, ArticleActivity.class);
         String url ;
         if (article.getIsSaved()==0){
             url = article.getUrl();
@@ -181,14 +180,39 @@ startActivity(new Intent(this , Testttttttt.class));
             url = "file://" + getFilesDir().getAbsolutePath() + "/cachedFiles"  + "/"+article.getTitle() + ".mht";
         }
 
-        intent.putExtra(Constants.INTENT_URL, url);
-        intent.putExtra(Constants.INTENT_TITLE, article.getTitle());
-        Log.d(TAG, "onArticleClicked: ");
-        startActivity(intent);
+//        intent.putExtra(Constants.INTENT_URL, url);
+//        intent.putExtra(Constants.INTENT_TITLE, article.getTitle());
+//        startActivity(intent);
+
+        Glide.with(this).load(article.getUrlToImage()).into(imageView);
+
+        webView.loadUrl(url);
+
+
+        webView.setWebViewClient(new WebViewClient());
+        webView.setWebChromeClient(new WebChromeClient());
+        webView.setNestedScrollingEnabled(false);
+        transitionToState(R.layout.motion_333_eend);
     }
 
     @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
+    public void onBackPressed() {
+        if (webView.canGoBack()) {
+            webView.goBack();
+            return;
+        }
+//        Log.d(TAG, "onBackPressed: "+motionLayout.getCurrentState());
+//        if (motionLayout.getCurrentState() == R.layout.motion_333_start) {
 
+            super.onBackPressed();
+//        }else {
+//            transitionToState(R.layout.motion_333_start);
+//        }
     }
+
+    private void transitionToState(int stateLayoutId) {
+//        motionLayout.transitionToState(stateLayoutId);
+    }
+
+
 }

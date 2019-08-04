@@ -15,12 +15,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Main3Activity"></activity>
+        <activity android:name=".TestCollapseToolBar"></activity>
+        <activity android:name=".TestWebNestedScrollView" />
+        <activity android:name=".Main3Activity" />
         <activity android:name=".Main2Activity" />
         <activity android:name=".Testttttttt" />
         <activity android:name=".view.articleActivity.ArticleActivity" />
         <activity android:name=".view.SearchActivity" />
-        <activity android:name=".view.articleList.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

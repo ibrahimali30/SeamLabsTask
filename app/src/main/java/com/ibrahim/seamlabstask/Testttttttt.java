@@ -1,14 +1,16 @@
 package com.ibrahim.seamlabstask;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.motion.widget.MotionLayout;
-import androidx.constraintlayout.motion.widget.MotionScene;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -19,9 +21,7 @@ import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -29,10 +29,7 @@ import com.ibrahim.seamlabstask.adapter.OnRecyclerItemClicked;
 import com.ibrahim.seamlabstask.data.model.Article;
 import com.ibrahim.seamlabstask.utils.Constants;
 import com.ibrahim.seamlabstask.view.SearchActivity;
-import com.ibrahim.seamlabstask.view.articleActivity.ArticleActivity;
 import com.ibrahim.seamlabstask.view.articleList.ArticlListViewModel;
-
-import java.util.List;
 
 public class Testttttttt extends AppCompatActivity implements OnRecyclerItemClicked {
     private static final String TAG = "Testttttttt";
@@ -45,6 +42,10 @@ public class Testttttttt extends AppCompatActivity implements OnRecyclerItemClic
     private WebView webView;
     private ImageView imageView;
 
+    boolean visible;
+
+    @SuppressLint("ClickableViewAccessibility")
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,10 +55,31 @@ public class Testttttttt extends AppCompatActivity implements OnRecyclerItemClic
         initRecyclerView();
         initBottomNavigationView();
         webView = findViewById(R.id.recyclerview_front);
-        imageView = findViewById(R.id.top_image);
-
         motionLayout = findViewById(R.id.motionLayout);
-//        motionLayout.transitionToEnd();
+        imageView = findViewById(R.id.top_image);
+        webView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (scrollY == 0 && motionLayout.getCurrentState() == R.layout.motion_333_findal){
+                    Log.d(TAG, "onScrollChange: 000000000");
+                    webView.setNestedScrollingEnabled(false);
+                    setMotionSwipViewHeight(2000);
+
+                }else {
+                    setMotionSwipViewHeight(200);
+                }
+
+
+            }
+        });
+        
+        webView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Log.d(TAG, "onTouch: webView");
+                return false;
+            }
+        });
 
         motionLayout.setTransitionListener(new MotionLayout.TransitionListener() {
             @Override
@@ -72,7 +94,7 @@ public class Testttttttt extends AppCompatActivity implements OnRecyclerItemClic
 
             @Override
             public void onTransitionCompleted(MotionLayout motionLayout, int i) {
-                if (i == Constants.MOTION_LAUOUT_COLAPSED) {
+                if (i == R.layout.motion_333_start) {
                     Log.d(TAG, "onTransitionCompleted: MOTION_LAUOUT_COLAPSED  "+i);
                     fragment1.recyclerView.setNestedScrollingEnabled(false);
                     fragment2.recyclerView.setNestedScrollingEnabled(false);
@@ -80,7 +102,9 @@ public class Testttttttt extends AppCompatActivity implements OnRecyclerItemClic
                     fragment1.recyclerView.setNestedScrollingEnabled(true);
                     fragment2.recyclerView.setNestedScrollingEnabled(true);
                 }
-//                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+
+                if (i == R.layout.motion_333_findal) setMotionSwipViewHeight(200);
+
             }
 
 
@@ -91,43 +115,22 @@ public class Testttttttt extends AppCompatActivity implements OnRecyclerItemClic
 
         });
 
-//        motionLayout.transitionToEnd();
 
-
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                motionLayout.transitionToEnd();
-//            }
-//        } , 1);
-
-
-
-
-
-        mViewModel = ViewModelProviders.of(this).get(ArticlListViewModel.class);
-
-        mViewModel.articleLiveData.observe(this, new Observer<List<Article>>() {
+        ImageView imageView = findViewById(R.id.close);
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onChanged(List<Article> articles) {
-//                adapter.setArticles(articles);
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: clicked");
+                setFloatingArticleSize(1);
             }
         });
 
-        mViewModel.setRefreshing.observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean isRefreshing) {
-//                swipeRefreshLayout.setRefreshing(isRefreshing);
-            }
-        });
+    }
 
-        mViewModel.savedArticlesLiveData.observe(this , new Observer<List<Article>>() {
-            @Override
-            public void onChanged(List<Article> articles) {
-                Log.d(TAG, "onChanged: called "+articles.size());
-            }
-        });
-
+    private void setMotionSwipViewHeight(int height) {
+        ConstraintSet set1 = motionLayout.getConstraintSet(R.layout.motion_333_findal);
+        set1.constrainHeight(R.id.view , height);
+        motionLayout.requestLayout();
     }
 
     private void initBottomNavigationView() {
@@ -214,13 +217,10 @@ public class Testttttttt extends AppCompatActivity implements OnRecyclerItemClic
     private void openSearchActivity() {
         Intent searchIntent = new Intent(this, SearchActivity.class);
         startActivity(searchIntent);
-//        this.overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
     }
 
     @Override
-    public void onArticleClicked(Article article) {
-        if (motionLayout.getCurrentState() != Constants.MOTION_LAUOUT_COLAPSED) return;
-
+    public void onArticleClicked(final Article article) {
 //        Intent intent = new Intent(this, ArticleActivity.class);
         String url ;
         if (article.getIsSaved()==0){
@@ -228,14 +228,12 @@ public class Testttttttt extends AppCompatActivity implements OnRecyclerItemClic
         }else {
             url = "file://" + getFilesDir().getAbsolutePath() + "/cachedFiles"  + "/"+article.getTitle() + ".mht";
         }
-//
-//
-//
+
 //        intent.putExtra(Constants.INTENT_URL, url);
 //        intent.putExtra(Constants.INTENT_TITLE, article.getTitle());
 //        startActivity(intent);
 
-        Glide.with(this).load(article.getUrlToImage()).into(imageView);
+//        Glide.with(this).load(article.getUrlToImage()).into(imageView);
 
 
 
@@ -244,8 +242,34 @@ public class Testttttttt extends AppCompatActivity implements OnRecyclerItemClic
 
         webView.setWebViewClient(new WebViewClient());
         webView.setWebChromeClient(new WebChromeClient());
-        webView.setNestedScrollingEnabled(false);
-        transitionToState(R.layout.motion_333_eend);
+
+            setFloatingArticleSize(250);
+            transitionToState(R.layout.motion_333_eend);
+
+
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Glide.with(Testttttttt.this).load(article.getUrlToImage()).into(imageView);
+
+            }
+        } , 50);
+
+        motionLayout.requestLayout();
+
+        visible = !visible ;
+
+    }
+
+    private void setFloatingArticleSize(int i) {
+        getCurrentConsraintSet().constrainHeight(R.id.top_image_container, i);
+        getCurrentConsraintSet().constrainHeight(R.id.top_image,i);
+        getCurrentConsraintSet().constrainHeight(R.id.view, i);
+        getCurrentConsraintSet().constrainHeight(R.id.tttt, i);
+        getCurrentConsraintSet().constrainHeight(R.id.close, i);
+
+        motionLayout.requestLayout();
     }
 
     @Override
@@ -255,7 +279,7 @@ public class Testttttttt extends AppCompatActivity implements OnRecyclerItemClic
             return;
         }
         Log.d(TAG, "onBackPressed: "+motionLayout.getCurrentState());
-        if (motionLayout.getCurrentState() == Constants.MOTION_LAUOUT_COLAPSED) {
+        if (motionLayout.getCurrentState() == R.layout.motion_333_start) {
 
             super.onBackPressed();
         }else {
@@ -266,4 +290,8 @@ public class Testttttttt extends AppCompatActivity implements OnRecyclerItemClic
     private void transitionToState(int stateLayoutId) {
         motionLayout.transitionToState(stateLayoutId);
     }
+    private ConstraintSet getCurrentConsraintSet() {
+        return motionLayout.getConstraintSet(motionLayout.getCurrentState());
+    }
+
 }

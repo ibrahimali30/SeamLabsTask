@@ -20,7 +20,6 @@ import com.ibrahim.seamlabstask.adapter.DataAdapter;
 import com.ibrahim.seamlabstask.data.model.Article;
 import com.ibrahim.seamlabstask.utils.Constants;
 import com.ibrahim.seamlabstask.view.articleList.ArticlListFragmentViewModel;
-import com.ibrahim.seamlabstask.view.articleList.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +84,7 @@ public class ItemFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     private void initRecyclerView() {
         recyclerView = view.findViewById(R.id.card_recycler_view);
-        recyclerView.setNestedScrollingEnabled(true);
+        recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new DataAdapter(getActivity(), articleStructure);
         recyclerView.setAdapter(adapter);

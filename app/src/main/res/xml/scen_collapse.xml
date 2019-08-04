@@ -1,0 +1,18 @@
+<MotionScene xmlns:motion="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <Transition
+        motion:constraintSetStart="@layout/motion_collapse_start"
+        motion:constraintSetEnd="@layout/motion_collapse_eend"
+        motion:duration="1000">
+        <OnSwipe
+            motion:touchAnchorId="@+id/appbar"
+            motion:touchAnchorSide="bottom"
+            motion:dragDirection="dragUp" />
+
+
+    </Transition>
+
+
+</MotionScene>

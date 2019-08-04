@@ -1,7 +1,6 @@
 package com.ibrahim.seamlabstask.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.ibrahim.seamlabstask.R;
 import com.ibrahim.seamlabstask.data.model.Article;
-import com.ibrahim.seamlabstask.view.articleList.MainActivity;
 
 import java.util.List;
 

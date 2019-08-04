@@ -1,0 +1,76 @@
+<MotionScene xmlns:motion="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Transition
+        android:id="@+id/transition_start_to_final"
+        motion:constraintSetEnd="@layout/motion_333_eend"
+        motion:constraintSetStart="@layout/motion_333_start"
+        motion:duration="1000">
+        <OnSwipe
+            motion:touchRegionId="@+id/view"
+            motion:touchAnchorId="@+id/top_image_container"
+            motion:touchAnchorSide="bottom"
+            motion:dragDirection="dragUp" />
+
+
+        <KeyFrameSet>
+
+
+            <KeyAttribute
+                android:rotation="0"
+                motion:framePosition="80"
+                motion:motionTarget="@id/tttt" />
+            <KeyPosition
+                motion:framePosition="70"
+                motion:percentX="0.4"
+                motion:percentY="0.6"
+                motion:motionTarget="@id/tttt"
+                motion:keyPositionType="parentRelative" />
+
+
+            <KeyPosition
+                motion:motionTarget="@id/top_image"
+                motion:framePosition="60"
+                motion:percentWidth="0"
+                motion:percentX="0"
+                motion:curveFit="linear"
+                />
+
+            <KeyPosition
+                motion:motionTarget="@id/top_image_container"
+                motion:framePosition="60"
+                motion:percentWidth="0"
+                motion:curveFit="linear"
+                />
+
+            <KeyPosition
+                motion:motionTarget="@id/recyclerview_container"
+                motion:framePosition="90"
+                motion:percentWidth="0"
+                motion:curveFit="linear"
+                />
+
+            <KeyAttribute
+                android:alpha="0"
+                motion:framePosition="75"
+                motion:motionTarget="@id/recyclerview_front" />
+
+        </KeyFrameSet>
+
+    </Transition>
+
+    <Transition
+        motion:constraintSetStart="@layout/motion_333_eend"
+        motion:constraintSetEnd="@layout/motion_333_findal"
+        motion:duration="1000">
+        <OnSwipe
+            motion:onTouchUp="decelerateAndComplete"
+            motion:touchRegionId="@+id/view"
+            motion:touchAnchorId="@+id/top_image_container"
+            motion:touchAnchorSide="bottom"
+            motion:dragDirection="dragUp" />
+
+    </Transition>
+
+
+</MotionScene>
